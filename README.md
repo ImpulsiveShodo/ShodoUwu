@@ -1,2 +1,0 @@
-# ShodoUwu
-Impulsive Cat
