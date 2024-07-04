@@ -21,7 +21,7 @@ public class catController : MonoBehaviour
     {
         playerInput = gameObject.GetComponent<PlayerInput>();
         index = playerInput.playerIndex;
-        controller = gameObject.AddComponent<CharacterController>();
+        controller = gameObject.GetComponent<CharacterController>();
         if (controller == null)
         {
             controller = gameObject.GetComponent<CharacterController>();
@@ -41,7 +41,9 @@ public class catController : MonoBehaviour
         move.y = 0;
         if (move != Vector3.zero)
         {
-            gameObject.transform.forward = move;
+            var currentRotation = gameObject.transform.rotation;
+            gameObject.transform.forward =
+                Vector3.RotateTowards(gameObject.transform.forward, move, 0.1f, 0.0f);
         }
         movement = new Vector3(input.x, 0, input.y);
 
@@ -69,12 +71,13 @@ public class catController : MonoBehaviour
         }
 
 
-
         controller.Move(movement * Time.deltaTime * playerSpeed);
 
         if (movement != Vector3.zero)
         {
-            gameObject.transform.forward = movement;
+            gameObject.transform.forward =
+                           Vector3.RotateTowards(gameObject.transform.forward, movement, 0.1f, 0.0f);
+
         }
 
         // Changes the height position of the player..
