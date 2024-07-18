@@ -4,10 +4,11 @@ public class CatController : MonoBehaviour
 {
     [SerializeField]
     private CatCharacterController controller;
+    [SerializeField]
+    private float playerSpeed = 1.0f;
     private PlayerInput playerInput;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private float playerSpeed = 2.0f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
     private Vector3 movement;
@@ -26,64 +27,37 @@ public class CatController : MonoBehaviour
     {
         Vector2 input = value.Get<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
-        if (controller.isGrounded && playerVelocity.y < 0)
-        {
-        }
         controller.Move(move * Time.deltaTime * playerSpeed);
-        //move.y = 0;
-        //if (move != Vector3.zero)
-        //{
-        //    var currentRotation = gameObject.transform.rotation;
-        //    gameObject.transform.forward =
-        //        Vector3.RotateTowards(gameObject.transform.forward, move, 0.1f, 0.0f);
-        //}
         movement = new Vector3(input.x, 0, input.y);
-
     }
     public void OnJump()
     {
         groundedPlayer = controller.isGrounded;
-        //if (groundedPlayer)
-        //{
-        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        //}
+        if (groundedPlayer)
+        {
+            controller.Move(new Vector3(0, Mathf.Sqrt(jumpHeight * -3.0f * gravityValue) * 0.1f, 0));
+        }
+        controller.isGrounded = false;
     }
 
     void Update()
     {
         playerInput = gameObject.GetComponent<PlayerInput>();
-        //Debug.Log(playerInput.playerIndex + " " + index);
         if (playerInput.playerIndex != index)
         {
             return;
         }
-
-
         controller.Move(movement * Time.deltaTime * playerSpeed);
+        //var currRotation = this.gameObject.transform.rotation;
+        //// change to euler angles
+        //var currEuler = currRotation.eulerAngles;
+        //// set the x and z to 0
+        //currEuler.x = 0;
+        //currEuler.z = 0;
+        //// set the euler angles back to the rotation
+        //currRotation.eulerAngles = currEuler;
+        //// set the rotation to the current rotation
+        //this.gameObject.transform.rotation = currRotation;
 
-        //if (movement != Vector3.zero)
-        //{
-        //    gameObject.transform.forward =
-        //                   Vector3.RotateTowards(gameObject.transform.forward, movement, 0.1f, 0.0f);
-
-        //}
-
-        // Changes the height position of the player..
-
-
-        //playerVelocity.y += gravityValue * Time.deltaTime;
-        //controller.Move(playerVelocity * Time.deltaTime);
-        if (controller.isGrounded && playerVelocity.y < 0)
-        {
-        }
-
-    }
-    public void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.red);
-            Debug.Log(contact.normal);
-        }
     }
 }
