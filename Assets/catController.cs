@@ -9,7 +9,8 @@ public class CatController : MonoBehaviour
     private PlayerInput playerInput;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private float jumpHeight = 1.0f;
+    [SerializeField]
+    private float jumpHeight = 2.0f;
     private float gravityValue = -9.81f;
     private Vector3 movement;
     [SerializeField]
@@ -35,9 +36,8 @@ public class CatController : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer)
         {
-            controller.Move(new Vector3(0, Mathf.Sqrt(jumpHeight * -3.0f * gravityValue) * 0.1f, 0));
+            controller.Move(new Vector3(0, jumpHeight, 0));
         }
-        controller.isGrounded = false;
     }
 
     void Update()
@@ -47,6 +47,11 @@ public class CatController : MonoBehaviour
         {
             return;
         }
+        if (movement != Vector3.zero)
+        {
+            controller.WakeUp();
+        }
+
         controller.Move(movement * Time.deltaTime * playerSpeed);
         //var currRotation = this.gameObject.transform.rotation;
         //// change to euler angles
