@@ -3,20 +3,27 @@ using UnityEngine.InputSystem;
 public class CatController : MonoBehaviour
 {
     [SerializeField]
-    private CatCharacterController controller;
-    [SerializeField]
     private float playerSpeed = 1.0f;
-    private PlayerInput playerInput;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    [SerializeField]
+    private float maxSpeed = 5.0f;
     [SerializeField]
     private float jumpHeight = 2.0f;
-    private float gravityValue = -9.81f;
-    private Vector3 movement;
     [SerializeField]
     private int index;
+    [SerializeField]
+    private float rotationSpeed = 0.02f;
+    [SerializeField]
+    private float WakeUpSpeed = 0.01f;
+
+    private CatCharacterController controller;
+    private PlayerInput playerInput;
+    private Vector3 movement;
+
     private void Start()
     {
+        controller = gameObject.GetComponent<CatCharacterController>();
+        controller.rotationSpeed = rotationSpeed;
+        controller.WakeUpSpeed = WakeUpSpeed;
     }
 
     private void Awake()
@@ -33,8 +40,7 @@ public class CatController : MonoBehaviour
     }
     public void OnJump()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer)
+        if (controller.isGrounded)
         {
             controller.Move(new Vector3(0, jumpHeight, 0));
         }
@@ -51,18 +57,6 @@ public class CatController : MonoBehaviour
         {
             controller.WakeUp();
         }
-
         controller.Move(movement * Time.deltaTime * playerSpeed);
-        //var currRotation = this.gameObject.transform.rotation;
-        //// change to euler angles
-        //var currEuler = currRotation.eulerAngles;
-        //// set the x and z to 0
-        //currEuler.x = 0;
-        //currEuler.z = 0;
-        //// set the euler angles back to the rotation
-        //currRotation.eulerAngles = currEuler;
-        //// set the rotation to the current rotation
-        //this.gameObject.transform.rotation = currRotation;
-
     }
 }

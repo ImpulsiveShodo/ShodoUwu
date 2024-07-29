@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class CatCharacterController : MonoBehaviour
 {
-    [SerializeField]
-    private float rotationSpeed = 0.02f;
+    public float rotationSpeed { get; set; }
 
-    [SerializeField]
-    private float WakeUpSpeed = 0.01f;
+    public float WakeUpSpeed { get; set; }
     // set the current gameobject to the player
 
     private GameObject player;
@@ -25,12 +23,13 @@ public class CatCharacterController : MonoBehaviour
     {
         // get the time between frames
         var deltaTime = Time.deltaTime;
-        // if the player is not grounded, add gravity
-        Debug.Log("isGrounded: " + isGrounded + " velocity: " + player.GetComponent<Rigidbody>().linearVelocity + " deltaTime: " + deltaTime);
+        // if the player is not grounded,  add gravity
         if (!isGrounded)
         {
             player.GetComponent<Rigidbody>().linearVelocity += new Vector3(0, -9.8f, 0) * deltaTime;
         }
+        Debug.Log(player.GetComponent<Rigidbody>().linearVelocity);
+
         //Debug.Log(player.GetComponent<Rigidbody>().linearVelocity);
     }
 
@@ -42,11 +41,9 @@ public class CatCharacterController : MonoBehaviour
             motion *= 0.3f;
         }
         // move the player
-        //Debug.Log(motion);
         // use add force to move the player
         //player.GetComponent<Rigidbody>().AddForce(motion * 500);
         var rigid = player.GetComponent<Rigidbody>();
-        //Debug.Log(rigid.linearVelocity);
         rigid.linearVelocity += motion * 10;
         // rotate y axis a little bit
 
@@ -94,37 +91,6 @@ public class CatCharacterController : MonoBehaviour
 
         // set the rotation to the current rotation
         player.transform.rotation = currRotation;
-    }
-
-    // get children's collider collision event
-    public void OnCollisionEnter(Collision collision)
-    {
-        //bool flag = false;
-        //foreach (ContactPoint contact in collision.contacts)
-        //{
-        //    if (contact.thisCollider.CompareTag("🐾"))
-        //    {
-        //        Debug.Log("🐾 enter");
-        //        flag = true;
-        //    }
-
-        //}
-        //isGrounded |= flag;
-    }
-
-    public void OnCollisionExit(Collision collision)
-    {
-        //ContactPoint[] contacts = new ContactPoint[collision.contactCount];
-        //collision.GetContacts(contacts);
-        //Debug.Log(contacts.Length);
-        //foreach (ContactPoint contact in contacts)
-        //{
-        //    Debug.Log(contact.thisCollider.tag + " exit");
-        //    if (contact.thisCollider.CompareTag("🐾"))
-        //    {
-        //        isGrounded = false;
-        //    }
-        //}
     }
 
 
