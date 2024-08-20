@@ -7,6 +7,8 @@ public class CatCharacterController : MonoBehaviour
     public float rotationSpeed { get; set; }
 
     public float WakeUpSpeed { get; set; }
+
+    public float maxSpeed { get; set; }
     // set the current gameobject to the player
 
     private GameObject player;
@@ -33,6 +35,8 @@ public class CatCharacterController : MonoBehaviour
         //Debug.Log(player.GetComponent<Rigidbody>().linearVelocity);
     }
 
+
+
     // Move
     public void Move(Vector3 motion)
     {
@@ -44,7 +48,19 @@ public class CatCharacterController : MonoBehaviour
         // use add force to move the player
         //player.GetComponent<Rigidbody>().AddForce(motion * 500);
         var rigid = player.GetComponent<Rigidbody>();
-        rigid.linearVelocity += motion * 10;
+        var x = rigid.linearVelocity.x;
+        var z = rigid.linearVelocity.z;
+        var y = rigid.linearVelocity.y;
+        var speed = math.sqrt(x * x + z * z);
+        if (speed > maxSpeed)
+        {
+            rigid.linearVelocity = new Vector3(x / speed * maxSpeed, y, z / speed * maxSpeed);
+        }
+        else
+        {
+            rigid.linearVelocity += motion * 10;
+        }
+
         // rotate y axis a little bit
 
 

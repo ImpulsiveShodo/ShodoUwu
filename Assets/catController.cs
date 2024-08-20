@@ -14,6 +14,17 @@ public class CatController : MonoBehaviour
     private float rotationSpeed = 0.02f;
     [SerializeField]
     private float WakeUpSpeed = 0.01f;
+    [SerializeField]
+    private float fiction = 0.5f;
+
+    // on the fiction change reset the material's friction
+    private void OnValidate()
+    {
+        var pm = gameObject.GetComponent<MeshCollider>().material;
+        pm.dynamicFriction = fiction;
+        pm.staticFriction = fiction * 1.2f;
+        gameObject.GetComponent<CatCharacterController>().maxSpeed = maxSpeed;
+    }
 
     private CatCharacterController controller;
     private PlayerInput playerInput;
@@ -24,6 +35,11 @@ public class CatController : MonoBehaviour
         controller = gameObject.GetComponent<CatCharacterController>();
         controller.rotationSpeed = rotationSpeed;
         controller.WakeUpSpeed = WakeUpSpeed;
+        controller.maxSpeed = maxSpeed;
+        // set the current meterial's friction
+        var pm = gameObject.GetComponent<MeshCollider>().material;
+        pm.dynamicFriction = fiction;
+        pm.staticFriction = fiction * 1.2f;
     }
 
     private void Awake()
