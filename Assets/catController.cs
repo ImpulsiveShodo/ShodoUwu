@@ -16,6 +16,10 @@ public class CatController : MonoBehaviour
     private float WakeUpSpeed = 0.01f;
     [SerializeField]
     private float fiction = 0.5f;
+    [SerializeField]
+    private float fov = 200.0f;
+    [SerializeField]
+    private float viewDistance = 1000.0f;
 
     // on the fiction change reset the material's friction
     private void OnValidate()
@@ -23,7 +27,13 @@ public class CatController : MonoBehaviour
         var pm = gameObject.GetComponent<MeshCollider>().material;
         pm.dynamicFriction = fiction;
         pm.staticFriction = fiction * 1.2f;
+        var controller = gameObject.GetComponent<CatCharacterController>();
         gameObject.GetComponent<CatCharacterController>().maxSpeed = maxSpeed;
+        gameObject.GetComponent<CatCharacterController>().rotationSpeed = rotationSpeed;
+        gameObject.GetComponent<CatCharacterController>().WakeUpSpeed = WakeUpSpeed;
+        gameObject.GetComponent<CatCharacterController>().fov = fov;
+        gameObject.GetComponent<CatCharacterController>().viewDistance = viewDistance;
+
     }
 
     private CatCharacterController controller;
@@ -36,6 +46,8 @@ public class CatController : MonoBehaviour
         controller.rotationSpeed = rotationSpeed;
         controller.WakeUpSpeed = WakeUpSpeed;
         controller.maxSpeed = maxSpeed;
+        controller.fov = fov;
+        controller.viewDistance = viewDistance;
         // set the current meterial's friction
         var pm = gameObject.GetComponent<MeshCollider>().material;
         pm.dynamicFriction = fiction;
@@ -74,5 +86,6 @@ public class CatController : MonoBehaviour
             controller.WakeUp();
         }
         controller.Move(movement * Time.deltaTime * playerSpeed);
+        controller.LookAtSomething();
     }
 }

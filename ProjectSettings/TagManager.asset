@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - "\U0001F43E"
+  - "\U0001F480"
+  - "\U0001F369"
+  - "\U0001F4F7"
   layers:
   - Default
   - TransparentFX
