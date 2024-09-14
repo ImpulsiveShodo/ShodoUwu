@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 public class CatController : MonoBehaviour
 {
@@ -20,6 +20,8 @@ public class CatController : MonoBehaviour
     private float fov = 200.0f;
     [SerializeField]
     private float viewDistance = 1000.0f;
+
+    public string name = "😺";
 
     // on the fiction change reset the material's friction
     private void OnValidate()
